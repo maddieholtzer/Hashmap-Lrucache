@@ -45,7 +45,7 @@ class LinkedList
   def get(key)
     current = first
     while !!current
-      if current.key.equal?(key)
+      if current.key == key
         return current.val
         break
       end
@@ -89,7 +89,9 @@ class LinkedList
         prevnode = current.prev
         nextnode = current.next
         prevnode.next = nextnode
-        nextnode.prev = prevnode
+        if !!nextnode
+          nextnode.prev = prevnode
+        end
         break
       end
       current = current.next
