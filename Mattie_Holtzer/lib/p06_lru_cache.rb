@@ -8,6 +8,7 @@ class LRUCache
     @store = LinkedList.new
     @max = max
     @prc = prc
+    @length = 0
   end
 
   def count
@@ -15,6 +16,19 @@ class LRUCache
   end
 
   def get(key)
+    if @store.include?(key)
+      ret = @store.get(key)
+      @store.remove(key)
+      @store.append(key, ret)
+      return ret
+    end
+    if @length==@max
+      eject!
+    end
+    @length+=1
+    val = @prc.call(key)
+    @store.append(key,val)
+    return val
   end
 
   def to_s
@@ -32,5 +46,7 @@ class LRUCache
   end
 
   def eject!
+    @length-=1
+    @store.remove(@store.first.key)
   end
 end
