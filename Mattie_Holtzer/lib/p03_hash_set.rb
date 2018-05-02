@@ -9,12 +9,22 @@ class HashSet
   end
 
   def insert(key)
+    @count+=1
+    if @count>num_buckets
+      resize!
+    end
+    @store[key.hash%num_buckets].push(key)
   end
 
   def include?(key)
+    @store[key.hash%num_buckets].include?(key)
   end
 
   def remove(key)
+    if include?(key)
+      @count-=1
+      @store[key.hash%num_buckets].delete(key)
+    end
   end
 
   private
